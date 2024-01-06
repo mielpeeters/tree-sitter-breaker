@@ -1,0 +1,26 @@
+// set some parameters
+set bpm 120
+set swing "strong"
+
+// make some beat
+beat fourbyfour 4/4 50%
+
+play fourbyfour 2
+stop fourbyfour
+
+grid bd {
+	x___
+	x_?_
+	x___
+	x_?_
+}
+
+play bd 5
+stop bd
+
+grid chords {
+	Cmin7 _ _ _
+	Abmaj7 _ _ _
+	Fmin7 _ _ _
+	GM7 _ _ _
+}

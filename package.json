@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-breaker",
+  "version": "0.1.0",
+  "description": "Breaker grammar for treesitter",
+  "main": "grammar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Miel Peeters",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.18.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.breaker",
+      "file-types": [
+        "br"
+      ],
+      "injection-regex": "^breaker$",
+      "highlights": [
+        "queries/highlights.scm"
+      ]
+    }
+  ]
+}
