@@ -362,10 +362,6 @@
         },
         {
           "type": "STRING",
-          "value": "M"
-        },
-        {
-          "type": "STRING",
           "value": "m"
         },
         {

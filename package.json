@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-breaker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Breaker grammar for treesitter",
   "main": "grammar.js",
   "scripts": {
