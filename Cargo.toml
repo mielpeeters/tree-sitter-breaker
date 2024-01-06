@@ -6,6 +6,7 @@ keywords = ["incremental", "parsing", "mylang"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/mielpeeters/tree-sitter-breaker"
 edition = "2021"
+authors = ["Miel Peeters"]
 license = "MIT"
 
 build = "bindings/rust/build.rs"
