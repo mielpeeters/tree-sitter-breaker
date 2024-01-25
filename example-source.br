@@ -1,12 +1,20 @@
-// set some parameters
-set bpm 120
-set swing "strong"
+tempo 120 4/4
 
-// make some beat
-beat fourbyfour 4/4 50%
+grid testchord {
+	[3]F#m13/C _ _ _
+}
 
-play fourbyfour 2
-stop fourbyfour
+set testchord lp_cutoff = 1000 
+
+grid test {
+		______
+}
+
+map test {
+		_: sample,
+}
+
+note test 1/4
 
 grid bd {
 	x___
@@ -18,9 +26,10 @@ grid bd {
 play bd 5
 stop bd
 
+// Ab major seven chord in octave 2 (low)
 grid chords {
-	Cmin7 _ _ _
-	Abmaj7 _ _ _
-	Fmin7 _ _ _
+	Cm7/F _ _ _
+	[2]Abmaj7 _ _ _
+	Fm7 _ _ _
 	GM7 _ _ _
 }

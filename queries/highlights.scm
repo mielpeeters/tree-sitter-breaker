@@ -3,30 +3,40 @@
 [
  "stop"
  "play"
- "beat"
  "grid"
  "set"
+ "map"
+ "tempo"
+ "note"
+ "mix"
+ "lp_cutoff"
 ] @keyword
 
-[
- "bpm"
- "swing"
-] @variable.builtin
+; [
+; "bpm"
+; "swing"
+; ] @variable.builtin
 
 (chord) @string.special
+
+(grid (grid_token) @constant)
 
 [
     "/"
     "%"
 ] @operator
 
-(beat name: (identifier) @function )  
+(map name: (identifier) @function )  
+(speed name: (identifier) @function )
+(mix name: (identifier) @function )
+(setter name: (identifier) @function )
+(grid name: (identifier) @function )
 
-(grid (grid_token) @constant)
 
 (comment) @comment
 
-(number) @number
+(float) @number
 (integer) @number
+(string) @string
 
 (ERROR) @error

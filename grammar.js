@@ -5,29 +5,35 @@ module.exports = grammar({
         source_file: $ => repeat($._definition),
 
         _definition: $ => choice(
-            $.beat,
             $.grid,
             $.stop,
             $.play,
             $.comment,
             $.setter,
+            $.map,
+            $.tempo,
+            $.speed,
+            $.mix,
         ),
 
         setter: $ => seq(
             "set",
-            $.property,
-            $.value,
+            field("name", $.identifier),
+            // TODO: find a better name
+            field("prop", $.property),
+            "=",
+            field("value", $.value),
         ),
 
         property: _ => choice(
-            "bpm",
-            "swing",
+            "lp_cutoff",
         ),
 
         value: $ => choice(
-            $.number,
+            $.integer,
             $.identifier,
             $.string,
+            $.float,
         ),
 
         string: _ => seq(
@@ -38,19 +44,59 @@ module.exports = grammar({
             '"'
         ),
 
-        beat: $ => seq(
-            "beat",
-            field('name', $.identifier),
-            $.time_signature,
-            optional($.probability),
-        ),
-
         grid: $ => seq(
             "grid",
             field('name', $.identifier),
             "{",
-            repeat($.grid_token),
+            field('token', repeat($.grid_token)),
             "}",
+        ),
+
+        map: $ => seq(
+            "map",
+            field('name', $.identifier),
+            "{",
+            field("pair", repeat($.map_entry)),
+            "}",
+        ),
+
+        map_entry: $ => seq(
+            field('key', $.raw_token),
+            ":",
+            field('value', $.playable),
+            ",",
+        ),
+
+        tempo: $ => seq(
+            "tempo",
+            field("bpm", choice($.float, $.integer)),
+            field("count", $.integer),
+            "/",
+            field("note", $.integer),
+        ),
+
+        speed: $ => seq(
+            "note",
+            field('name', $.identifier),
+            $.time_signature,
+        ),
+
+        mix: $ => seq(
+            "mix",
+            field('name', $.identifier),
+            field('value', $.float)
+        ),
+
+        playable: $ => choice(
+            $.chord,
+            $.sample,
+        ),
+
+        sample: $ => seq(
+            field("name", $.identifier),
+            optional(
+                field("probability", $.probability),
+            )
         ),
 
         stop: $ => seq(
@@ -65,41 +111,97 @@ module.exports = grammar({
         ),
 
         time_signature: $ => seq(
-            $.integer,
-            '/',
-            $.integer,
+            field("numer", $.integer),
+            "/",
+            field("denom", $.integer),
         ),
 
         probability: $ => seq(
-            $.number,
+            $.integer,
             '%',
         ),
 
         grid_token: $ => choice(
-            "x",
-            "_",
-            "?",
-            $.integer,
+            $.raw_token,
             $.chord,
+            $.single_note,
+        ),
+
+        raw_token: $ => choice(
+            "x", // hit
+            "_", // rest
+            "?", // random
+            "&", // repeat 
+            $.integer
         ),
 
         chord: $ => seq(
-            $.note,
-            optional($.mode),
-            optional($.augmentation),
+            field("root", $.note),
+            optional(field("mode", $.mode)),
+            optional(repeat(field("augm", $.augmentation))),
             optional(seq(
                 "/",
-                $.note,
+                field("bass", $.note),
             ))
         ),
 
-        note: _ => seq(
-            // capital letter
-            /[A-G]/,
-            optional(choice(
-                "#",
-                "b",
-            )),
+        note: $ => seq(
+            optional(
+                seq(
+                    "[",
+                    field("oct", $.octave),
+                    "]"
+                )
+            ),
+            field("bass", $.bass),
+            optional(field("acc", $.accidental)),
+        ),
+
+        single_note: $ => seq(
+            optional(
+                seq(
+                    "[",
+                    field("oct", $.octave),
+                    "]"
+                )
+            ),
+            field("bass", $.small_bass),
+            optional(field("acc", $.accidental)),
+        ),
+
+        octave: _ => choice(
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+        ),
+
+        small_bass: _ => choice(
+            "a",
+            "t",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+        ),
+
+        bass: _ => choice(
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+        ),
+
+        accidental: _ => choice(
+            "#",
+            "b",
         ),
 
         mode: _ => choice(
@@ -112,20 +214,24 @@ module.exports = grammar({
         ),
 
         augmentation: _ => choice(
-            "7",
-            "9",
-            "11",
-            "13",
-            "M7",
             "6",
+            "M6",
+            "7",
+            "M7",
+            "9",
+            "M9",
+            "11",
+            "M11",
+            "13",
+            "M13",
         ),
 
         comment: _ => token(seq('//', /.*/)),
 
         integer: _ => /[0-9]+/,
 
-        number: _ => /\d+/,
+        float: _ => /[0-9]+\.[0-9]+/,
 
-        identifier: _ => /[a-z]+/,
+        identifier: _ => /[a-zA-Z_][a-zA-Z0-9_-]*/,
     }
 });

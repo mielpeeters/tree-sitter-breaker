@@ -13,10 +13,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "beat"
-        },
-        {
-          "type": "SYMBOL",
           "name": "grid"
         },
         {
@@ -34,6 +30,22 @@
         {
           "type": "SYMBOL",
           "name": "setter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "map"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tempo"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "speed"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mix"
         }
       ]
     },
@@ -45,12 +57,32 @@
           "value": "set"
         },
         {
-          "type": "SYMBOL",
-          "name": "property"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "value"
+          "type": "FIELD",
+          "name": "prop",
+          "content": {
+            "type": "SYMBOL",
+            "name": "property"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "value"
+          }
         }
       ]
     },
@@ -59,11 +91,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "bpm"
-        },
-        {
-          "type": "STRING",
-          "value": "swing"
+          "value": "lp_cutoff"
         }
       ]
     },
@@ -72,7 +100,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "integer"
         },
         {
           "type": "SYMBOL",
@@ -81,6 +109,10 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "float"
         }
       ]
     },
@@ -111,39 +143,6 @@
         }
       ]
     },
-    "beat": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "beat"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "time_signature"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "probability"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
     "grid": {
       "type": "SEQ",
       "members": [
@@ -164,15 +163,218 @@
           "value": "{"
         },
         {
-          "type": "REPEAT",
+          "type": "FIELD",
+          "name": "token",
           "content": {
-            "type": "SYMBOL",
-            "name": "grid_token"
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "grid_token"
+            }
           }
         },
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "map": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "map"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "pair",
+          "content": {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "map_entry"
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "map_entry": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "raw_token"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "playable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        }
+      ]
+    },
+    "tempo": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "tempo"
+        },
+        {
+          "type": "FIELD",
+          "name": "bpm",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "float"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "integer"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "count",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "FIELD",
+          "name": "note",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        }
+      ]
+    },
+    "speed": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "note"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "time_signature"
+        }
+      ]
+    },
+    "mix": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "mix"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "float"
+          }
+        }
+      ]
+    },
+    "playable": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "chord"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sample"
+        }
+      ]
+    },
+    "sample": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "probability",
+              "content": {
+                "type": "SYMBOL",
+                "name": "probability"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -218,16 +420,24 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "integer"
+          "type": "FIELD",
+          "name": "numer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
         },
         {
           "type": "STRING",
           "value": "/"
         },
         {
-          "type": "SYMBOL",
-          "name": "integer"
+          "type": "FIELD",
+          "name": "denom",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
         }
       ]
     },
@@ -236,7 +446,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "integer"
         },
         {
           "type": "STRING",
@@ -245,6 +455,23 @@
       ]
     },
     "grid_token": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "raw_token"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "chord"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_note"
+        }
+      ]
+    },
+    "raw_token": {
       "type": "CHOICE",
       "members": [
         {
@@ -260,12 +487,12 @@
           "value": "?"
         },
         {
-          "type": "SYMBOL",
-          "name": "integer"
+          "type": "STRING",
+          "value": "&"
         },
         {
           "type": "SYMBOL",
-          "name": "chord"
+          "name": "integer"
         }
       ]
     },
@@ -273,15 +500,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "note"
+          "type": "FIELD",
+          "name": "root",
+          "content": {
+            "type": "SYMBOL",
+            "name": "note"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "mode"
+              "type": "FIELD",
+              "name": "mode",
+              "content": {
+                "type": "SYMBOL",
+                "name": "mode"
+              }
             },
             {
               "type": "BLANK"
@@ -292,8 +527,15 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "augmentation"
+              "type": "REPEAT",
+              "content": {
+                "type": "FIELD",
+                "name": "augm",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "augmentation"
+                }
+              }
             },
             {
               "type": "BLANK"
@@ -311,8 +553,12 @@
                   "value": "/"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "note"
+                  "type": "FIELD",
+                  "name": "bass",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "note"
+                  }
                 }
               ]
             },
@@ -327,22 +573,26 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[A-G]"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
                   "type": "STRING",
-                  "value": "#"
+                  "value": "["
+                },
+                {
+                  "type": "FIELD",
+                  "name": "oct",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "octave"
+                  }
                 },
                 {
                   "type": "STRING",
-                  "value": "b"
+                  "value": "]"
                 }
               ]
             },
@@ -350,6 +600,200 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "FIELD",
+          "name": "bass",
+          "content": {
+            "type": "SYMBOL",
+            "name": "bass"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "acc",
+              "content": {
+                "type": "SYMBOL",
+                "name": "accidental"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "single_note": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "FIELD",
+                  "name": "oct",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "octave"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "bass",
+          "content": {
+            "type": "SYMBOL",
+            "name": "small_bass"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "acc",
+              "content": {
+                "type": "SYMBOL",
+                "name": "accidental"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "octave": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "1"
+        },
+        {
+          "type": "STRING",
+          "value": "2"
+        },
+        {
+          "type": "STRING",
+          "value": "3"
+        },
+        {
+          "type": "STRING",
+          "value": "4"
+        },
+        {
+          "type": "STRING",
+          "value": "5"
+        },
+        {
+          "type": "STRING",
+          "value": "6"
+        },
+        {
+          "type": "STRING",
+          "value": "7"
+        }
+      ]
+    },
+    "small_bass": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "a"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
+          "type": "STRING",
+          "value": "c"
+        },
+        {
+          "type": "STRING",
+          "value": "d"
+        },
+        {
+          "type": "STRING",
+          "value": "e"
+        },
+        {
+          "type": "STRING",
+          "value": "f"
+        },
+        {
+          "type": "STRING",
+          "value": "g"
+        }
+      ]
+    },
+    "bass": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "A"
+        },
+        {
+          "type": "STRING",
+          "value": "B"
+        },
+        {
+          "type": "STRING",
+          "value": "C"
+        },
+        {
+          "type": "STRING",
+          "value": "D"
+        },
+        {
+          "type": "STRING",
+          "value": "E"
+        },
+        {
+          "type": "STRING",
+          "value": "F"
+        },
+        {
+          "type": "STRING",
+          "value": "G"
+        }
+      ]
+    },
+    "accidental": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "STRING",
+          "value": "b"
         }
       ]
     },
@@ -387,19 +831,15 @@
       "members": [
         {
           "type": "STRING",
+          "value": "6"
+        },
+        {
+          "type": "STRING",
+          "value": "M6"
+        },
+        {
+          "type": "STRING",
           "value": "7"
-        },
-        {
-          "type": "STRING",
-          "value": "9"
-        },
-        {
-          "type": "STRING",
-          "value": "11"
-        },
-        {
-          "type": "STRING",
-          "value": "13"
         },
         {
           "type": "STRING",
@@ -407,7 +847,27 @@
         },
         {
           "type": "STRING",
-          "value": "6"
+          "value": "9"
+        },
+        {
+          "type": "STRING",
+          "value": "M9"
+        },
+        {
+          "type": "STRING",
+          "value": "11"
+        },
+        {
+          "type": "STRING",
+          "value": "M11"
+        },
+        {
+          "type": "STRING",
+          "value": "13"
+        },
+        {
+          "type": "STRING",
+          "value": "M13"
         }
       ]
     },
@@ -431,13 +891,13 @@
       "type": "PATTERN",
       "value": "[0-9]+"
     },
-    "number": {
+    "float": {
       "type": "PATTERN",
-      "value": "\\d+"
+      "value": "[0-9]+\\.[0-9]+"
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-z]+"
+      "value": "[a-zA-Z_][a-zA-Z0-9_-]*"
     }
   },
   "extras": [
