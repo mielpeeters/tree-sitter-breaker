@@ -10,6 +10,8 @@
  "note"
  "mix"
  "lp_cutoff"
+ "hp_cutoff"
+ "gain"
 ] @keyword
 
 ; [

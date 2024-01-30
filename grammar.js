@@ -27,6 +27,8 @@ module.exports = grammar({
 
         property: _ => choice(
             "lp_cutoff",
+            "hp_cutoff",
+            "gain",
         ),
 
         value: $ => choice(

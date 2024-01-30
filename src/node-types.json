@@ -776,7 +776,15 @@
     "named": false
   },
   {
+    "type": "gain",
+    "named": false
+  },
+  {
     "type": "grid",
+    "named": false
+  },
+  {
+    "type": "hp_cutoff",
     "named": false
   },
   {

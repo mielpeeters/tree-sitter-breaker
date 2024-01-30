@@ -92,6 +92,14 @@
         {
           "type": "STRING",
           "value": "lp_cutoff"
+        },
+        {
+          "type": "STRING",
+          "value": "hp_cutoff"
+        },
+        {
+          "type": "STRING",
+          "value": "gain"
         }
       ]
     },
